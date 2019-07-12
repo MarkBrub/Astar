@@ -13,7 +13,11 @@ This program is meant to take in a picture of a masking tape path or maze on a d
 
 ![The initial picture of the path](/Images/path.png)
 
-The result is a modified picture that has just the desired path from the initial image. In the result the wall nodes are light gray, explored nodes are dark grey, the start node is green, the end node is red, and the path is blue.
+OpenCV is then used to identify only the desired part of the image.
+
+![Processed path](/Images/processedPath.png)
+
+The result is a modified version of the picture that has a path from start to finish. In the result the wall nodes are light gray, explored nodes are dark grey, the start node is green, the end node is red, and the path is blue.
 
 ![Solved path](/Images/solvedPath.png)
 
