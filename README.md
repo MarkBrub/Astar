@@ -11,14 +11,14 @@ https://en.wikipedia.org/wiki/A*_search_algorithm
 
 This program is meant to take in a picture of a masking tape path or maze on a dark floor and output both a picture of the maze solved and a file containing the list of direction to take from the start node to the end node. For some reason the image is a different orentation than the one used to generate the path.
 
-![The initial picture of the path](/Lyle/path.JPG)
+![The initial picture of the path](/Images/path.png)
 
 The result is a modified picture that has just the desired path from the initial image. In the result the wall nodes are light gray, explored nodes are dark grey, the start node is green, the end node is red, and the path is blue.
 
-![Solved path](solvedPath.png)
+![Solved path](/Images/solvedPath.png)
 
 The program also output a text file with a list of directions and durationsto get from the start to the end node. The directions are represented as numbers 0-7 and a key can be found in /Lyle/direction.hpp. An example output can be found in /Lyle/output.txt.
 
 As this example is realtivly simple and the program can work on any picture with a dark and light path here is a better example of the algorithm working. Becasue the walls of the maze are so thin the blur is removed in the image processing step as it deforms the image.
 
-![Solved maze](solvedMaze.png)
+![Solved maze](/Images/solvedMaze.png)
