@@ -9,49 +9,49 @@
 #include "maze.hpp"
 
 int main() {
+	std::string filename = "test.jpg";
 	Maze maze;
-	maze.scale = .25;
+	maze.scale = 1;
 
 	cv::namedWindow("Image", cv::WINDOW_AUTOSIZE);
-	//maze.img = cv::imread("maze.jpg");
-	//cv::imshow("Image", maze.img);
-	//cv::setMouseCallback("Image", Maze::SetPoints, &maze);
+	maze.img = cv::imread(filename);
+	cv::cvtColor(maze.img, maze.img, cv::COLOR_BGR2GRAY);
+	bolden(&maze.img);
 
-	//cv::waitKey(0);
-	Position start(5, 5);
-	Position end(95, 95);
+	cv::imshow("Image", maze.img);
+	cv::setMouseCallback("Image", Maze::SetPoints, &maze);
 
-	maze.start = start;
-	maze.end = end;
+	cv::waitKey(0);
 
-	//gets a black and white image from picture
-	cv::Mat img = getImage("maze.jpg", maze.scale, maze.scale, false);
+	std::cout << "Working..." << std::endl;
+
+	cv::resize(maze.img, maze.img, cv::Size(), maze.scale, maze.scale, 2);
 
 	//converts the image in to the custom graph type
-	Graph graph(generateGraph(&img));
+	Graph graph(generateGraph(&maze.img));
 
 	//start timer
 	auto startTimer = std::chrono::system_clock::now();
 
 	//runs astar on the graph
-	Node* path = aStar(&graph, &maze.start, &maze.end, &img);
+	Node* path = aStar(&graph, &maze.start, &maze.end, &maze.img);
 
 	//end timer
 	auto endTimer = std::chrono::system_clock::now();
 
-	std::cout << "Path found in: "
-		<< std::chrono::duration_cast<std::chrono::milliseconds>(endTimer - startTimer).count()
-		<< " milliseconds" << std::endl;
-
 	//if a path was found
-	if (path->position != maze.start) {
-		drawPath(path, &img);
+	if (path->position == maze.end) {
+		std::cout << "Path found in: "
+			<< std::chrono::duration_cast<std::chrono::milliseconds>(endTimer - startTimer).count()
+			<< " milliseconds" << std::endl;
 
-		cv::resize(img, img, cv::Size(), 1 / maze.scale, 1 / maze.scale, 3);
+		drawPath(path, &maze.img);
 
-		cv::imshow("Image", img);
-		cv::waitKey(0);
+		cv::resize(maze.img, maze.img, cv::Size(), 1 / maze.scale, 1 / maze.scale, 3);
+
+		cv::imshow("Image", maze.img);
 	}
+	cv::waitKey(0);
 
 	return 0;
 }
