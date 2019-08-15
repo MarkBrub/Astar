@@ -6,6 +6,7 @@ struct Node {
 	Position position;
 	float g = INFINITY;
 	float f = INFINITY;
+	bool closed = false;
 	Node* parent = nullptr;
 
 	Node(int x, int y);

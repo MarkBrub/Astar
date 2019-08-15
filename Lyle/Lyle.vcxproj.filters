@@ -39,6 +39,9 @@
     <ClCompile Include="drection.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="maze.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="resource.h">
@@ -63,6 +66,9 @@
       <Filter>Resource Files</Filter>
     </ClInclude>
     <ClInclude Include="direction.hpp">
+      <Filter>Resource Files</Filter>
+    </ClInclude>
+    <ClInclude Include="maze.hpp">
       <Filter>Resource Files</Filter>
     </ClInclude>
   </ItemGroup>

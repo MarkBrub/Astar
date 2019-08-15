@@ -9,6 +9,10 @@ bool Position::operator == (Position right) {
 	return x == right.x && y == right.y;
 }
 
+bool Position::operator != (Position right) {
+	return x != right.x && y != right.y;
+}
+
 Position Position::delta(int dx, int dy) {
 	Position neighbor(x + dx, y + dy);
 	return neighbor;

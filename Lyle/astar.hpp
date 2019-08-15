@@ -9,8 +9,8 @@
 #include "graph.hpp"
 #include "direction.hpp"
 
-Node aStar(Graph* graph, Position* start, Position* end, cv::Mat* img = nullptr);
+Node* aStar(Graph* graph, Position* start, Position* end, cv::Mat* img = nullptr);
 
-void drawPath(Node node, cv::Mat* img);
+void drawPath(Node* node, cv::Mat* img);
 
 void outputDirections(Node node);

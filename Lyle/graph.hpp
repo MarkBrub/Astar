@@ -6,6 +6,8 @@
 struct Graph {
 	std::vector<std::vector<Node>> graph;
 
+	Graph();
+
 	Graph(std::vector<std::vector<Node>> m_graph);
 
 	std::vector<Node>& operator [] (int x);

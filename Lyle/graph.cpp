@@ -2,6 +2,8 @@
 #include "node.hpp"
 #include "graph.hpp"
 
+Graph::Graph() {}
+
 Graph::Graph(std::vector<std::vector<Node>> m_graph) {
 	graph = m_graph;
 }

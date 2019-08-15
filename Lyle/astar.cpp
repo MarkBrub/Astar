@@ -1,15 +1,14 @@
 #include "astar.hpp"
 
-Node aStar(Graph* graph, Position* start, Position* end, cv::Mat* img) {
-	Set closedSet;
+Node* aStar(Graph* graph, Position* start, Position* end, cv::Mat* img) {
 	Set openSet;
 
 	//automaticly put all wall nodes in the closed set
 	for (int x = 0; x < graph->size(); x++) {
 		for (int y = 0; y < (*graph)[0].size(); y++) {
 			if ((*graph)[x][y].f == 0) {
-				closedSet.add(&(*graph)[x][y]);
-				if (img != nullptr) img->at<uchar>(cv::Point(y, x)) = 180;
+				(*graph)[x][y].closed = true;
+				if (img != nullptr) img->at<uchar>(cv::Point(y, x)) = 128;
 			}
 		}
 	}
@@ -22,10 +21,10 @@ Node aStar(Graph* graph, Position* start, Position* end, cv::Mat* img) {
 
 		Node* currentNode = openSet.getLowestCost();
 
-		if (currentNode->position == *end) return *graph->getNode(*end);
+		if (currentNode->position == *end) return graph->getNode(*end);
 
 		openSet.remove(currentNode);
-		closedSet.add(currentNode);
+		currentNode->closed = true;
 
 		std::vector<Node*> neighbors;
 		Position position = currentNode->position;
@@ -41,7 +40,7 @@ Node aStar(Graph* graph, Position* start, Position* end, cv::Mat* img) {
 
 		for (int x = 0; x < neighbors.size(); x++) {
 
-			if (closedSet.inSet(neighbors[x])) continue;
+			if (neighbors[x]->closed) continue;
 
 			float g = currentNode->g + currentNode->distance(neighbors[x]);
 
@@ -52,7 +51,7 @@ Node aStar(Graph* graph, Position* start, Position* end, cv::Mat* img) {
 				continue;
 			}
 
-			if (img != nullptr) img->at<uchar>(cv::Point(neighbors[x]->position.y, neighbors[x]->position.x)) = 128;
+			if (img != nullptr) img->at<uchar>(cv::Point(neighbors[x]->position.y, neighbors[x]->position.x)) = 180;
 
 			neighbors[x]->parent = currentNode;
 			neighbors[x]->g = g;
@@ -61,21 +60,21 @@ Node aStar(Graph* graph, Position* start, Position* end, cv::Mat* img) {
 
 	}
 	std::cout << "No path was found" << std::endl;
-	return *graph->getNode(*start);
+	return graph->getNode(*start);
 }
 
 //follows each node to its parent until reaching the start node
-void drawPath(Node path, cv::Mat* img) {
+void drawPath(Node* path, cv::Mat* img) {
 	cv::cvtColor(*img, *img, cv::COLOR_GRAY2BGR);
-	img->at<cv::Vec3b>(cv::Point(path.position.y, path.position.x)) = { 0, 0, 255 };
-	path = *path.parent;
+	img->at<cv::Vec3b>(cv::Point(path->position.y, path->position.x)) = { 0, 0, 255 };
+	path = path->parent;
 
-	while (path.parent != nullptr) {
-		img->at<cv::Vec3b>(cv::Point(path.position.y, path.position.x)) = { 255, 0, 0 };
-		path = *path.parent;
+	while (path->parent != nullptr) {
+		img->at<cv::Vec3b>(cv::Point(path->position.y, path->position.x)) = { 255, 0, 0 };
+		path = path->parent;
 	}
 
-	img->at<cv::Vec3b>(cv::Point(path.position.y, path.position.x)) = { 0, 255, 0 };
+	img->at<cv::Vec3b>(cv::Point(path->position.y, path->position.x)) = { 0, 255, 0 };
 }
 
 //simplify and output the steps taken to a file
